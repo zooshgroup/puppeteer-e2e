@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "description": "",
   "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zooshgroup/puppeteer-e2e"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
