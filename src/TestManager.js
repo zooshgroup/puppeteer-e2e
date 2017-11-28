@@ -33,8 +33,8 @@ class TestManager {
         if (location && location.url) {
           await page.goto(location.url);
         }
-        if (BrowserManager.readyFunction) {
-          await BrowserManager.readyFunction(page);
+        if (BrowserManager.pageReadyFunction) {
+          await BrowserManager.pageReadyFunction(page);
         }
         await testCase(page, predicates);
         await page.close();

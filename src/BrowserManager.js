@@ -9,9 +9,9 @@ class BrowserManager {
     this.browsers = [];
   }
 
-  useBrowserOptions({ authenticationFunction, readyFunction, ...config }) {
+  useBrowserOptions({ authenticationFunction, pageReadyFunction, ...config }) {
     this.authenticationFunction = authenticationFunction;
-    this.readyFunction = readyFunction;
+    this.pageReadyFunction = pageReadyFunction;
     this.config = config;
   }
 
