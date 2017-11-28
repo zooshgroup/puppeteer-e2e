@@ -15,7 +15,7 @@ class TestManager {
     };
   }
 
-  withPage({ user, url }, testCase) {
+  withPage({ user, location }, testCase) {
     return async () => {
       let page = null;
       try {
@@ -30,8 +30,8 @@ class TestManager {
         // const sessionId = isNil(session) ? Math.random() : session;
         page = await browser.findOrCreatePage({ for: Math.random() });
         const predicates = createAssertionFunctions(page, path(['config', 'debug'], BrowserManager));
-        if (url && url()) {
-          await page.goto(url());
+        if (location && location.url) {
+          await page.goto(location.url);
         }
         if (BrowserManager.readyFunction) {
           await BrowserManager.readyFunction(page);
