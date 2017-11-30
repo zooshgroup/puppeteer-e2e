@@ -39,17 +39,19 @@ const evaluateReactSelector = async (page, selector, reactFunction) => {
 
 const waitForReactPredicate = (page) => async (selector, reactFunction, { timeout = 4000, pollInterval = 100, condition } = {}) => {
   const changeBuffer = ChangeLogger('react');
-  return waitForFunction({ timeout, pollInterval }, async () => {
+  const result = waitForFunction({ timeout, pollInterval }, async () => {
     const reactResult = await evaluateReactSelector(page, selector, reactFunction);
     const result = condition ? condition(reactResult) : reactResult;
     changeBuffer(reactFunction, result, selector);
     return result;
   });
+  await sleep(500);
+  return result;
 };
 
 const waitForElementPredicate = (page) => async (selector, pagePredicate, { timeout = 4000, pollInterval = 100, condition } = {}) => {
   const changeBuffer = ChangeLogger('page');
-  return waitForFunction({ timeout, pollInterval }, async () => {
+  const result = waitForFunction({ timeout, pollInterval }, async () => {
     try {
       const pageResult = await page.$eval(selector, pagePredicate);
       const result = condition ? condition(pageResult) : pageResult;
@@ -59,15 +61,19 @@ const waitForElementPredicate = (page) => async (selector, pagePredicate, { time
       return pagePredicate(null);
     }
   });
+  await sleep(500);
+  return result;
 };
 
 const waitForPagePredicate = async (predicate, { timeout = 4000, pollInterval = 100 } = {}) => {
   const changeBuffer = ChangeLogger('global');
-  return waitForFunction({ timeout, pollInterval }, async () => {
+  const result = waitForFunction({ timeout, pollInterval }, async () => {
     const result = await predicate();
     changeBuffer(predicate, result);
     return result;
   });
+  await sleep(500);
+  return result;
 };
 
 const createAssertionFunctions = (page, debug) => {
