@@ -34,7 +34,10 @@ class TestManager {
           await page.goto(location.url);
         }
         if (BrowserManager.pageReadyFunction) {
-          await BrowserManager.pageReadyFunction(page);
+          const ready = await BrowserManager.pageReadyFunction(page);
+          if (!ready) {
+            throw new Error("page loading failed");
+          }
         }
         await testCase(page, predicates);
         await page.close();
