@@ -15,30 +15,35 @@ class TestManager {
     };
   }
 
-  withPage({ user, location }, testCase) {
+  withPage({ user, location, waitFor = [] }, testCase) {
     return async () => {
       let page = null;
       try {
-        let browser = await BrowserManager.findBrowser({ user });
+        const browser = await BrowserManager.createNew();
 
-        if (!browser) {
-          browser = await BrowserManager.createNew({ for: user });
-          if (user) {
-            await browser.loginAs(user);
-          }
+        page = await browser.newPage();
+
+
+        if (BrowserManager.config.viewport) {
+          await page.setViewport(BrowserManager.config.viewport);
         }
-        // const sessionId = isNil(session) ? Math.random() : session;
-        page = await browser.findOrCreatePage({ for: Math.random() });
+        if (BrowserManager.config.baseUrl) {
+          await page.goto(BrowserManager.config.baseUrl);
+        }
+        await BrowserManager.authenticationFunction(page, user);
+
         const predicates = createAssertionFunctions(page, path(['config', 'debug'], BrowserManager));
+
         if (location && location.url) {
           await page.goto(location.url);
         }
         if (BrowserManager.pageReadyFunction) {
-          await BrowserManager.pageReadyFunction(page);
+          await BrowserManager.pageReadyFunction(page, waitFor);
         }
         await testCase(page, predicates);
-        await page.close();
+        await browser.close();
       } catch (err) {
+        // console.log(err);
         if (page !== null) {
           await page.close();
         }

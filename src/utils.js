@@ -3,7 +3,7 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-let _debug = false;
+let _debug = false; // eslint-disable-line
 
 function ChangeLogger(type) {
   let prev = null;
