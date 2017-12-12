@@ -18,4 +18,4 @@ const useTestTools = () => {
   };
 };
 
-export default useTestTools;
+module.exports = useTestTools;
