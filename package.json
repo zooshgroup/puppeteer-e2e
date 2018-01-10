@@ -1,6 +1,6 @@
 {
   "name": "@zooshgroup/puppeteer-e2e",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "description": "",
   "main": "lib/index.js",
   "repository": {
@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "babel-cli": "6.26.0",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "1.6.1",
     "babel-preset-stage-0": "6.24.1"
   }
